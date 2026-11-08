@@ -1,0 +1,1338 @@
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#090414">
+<title>GTA VI — Vice City Countdown</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800;900&family=Orbitron:wght@500;700;900&display=swap');
+
+:root {
+  --pink: #ff20d0;
+  --pink2: #ff8ce9;
+  --blue: #00dfff;
+  --bg: #080414;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: white;
+  font-family: Montserrat, Arial, sans-serif;
+  overflow-x: hidden;
+}
+
+a { color: inherit; text-decoration: none; }
+
+/* SCÈNE PRINCIPALE */
+.page {
+  min-height: 100vh;
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  background: #10051c;
+}
+
+.background {
+  position: absolute;
+  inset: -2%;
+  z-index: -5;
+  background:
+    linear-gradient(180deg, #08041435 0%, #08041418 35%, #080414e8 100%),
+    url("https://www.rockstargames.com/VI/_next/static/media/Official_Cover_Art_landscape.12.uu2irr.2_a.jpg?akim=1&imdensity=1&imwidth=3840") center center / cover no-repeat,
+    linear-gradient(145deg, #36115f, #ec4cae 55%, #080414);
+  animation: cinematic 22s ease-in-out infinite alternate;
+}
+
+@keyframes cinematic {
+  from { transform: scale(1); }
+  to { transform: scale(1.055); }
+}
+
+/* REFLETS ANIMÉS */
+.page::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -3;
+  pointer-events: none;
+  background: linear-gradient(
+    110deg,
+    transparent 20%,
+    #ff20d00a 35%,
+    #ffffff16 43%,
+    #00dfff0c 48%,
+    transparent 58%
+  );
+  background-size: 220% 100%;
+  animation: lightSweep 12s ease-in-out infinite;
+}
+
+@keyframes lightSweep {
+  0%, 100% { background-position: 150% 0; }
+  50% { background-position: -100% 0; }
+}
+
+.ambient {
+  position: absolute;
+  inset: 0;
+  z-index: -3;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse at 15% 65%, #ff00bd25, transparent 42%),
+    radial-gradient(ellipse at 85% 60%, #00dfff25, transparent 42%);
+  animation: ambientGlow 8s ease-in-out infinite alternate;
+}
+
+@keyframes ambientGlow {
+  from { opacity: .55; }
+  to { opacity: 1; }
+}
+
+.shade {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  pointer-events: none;
+  background: linear-gradient(
+    180deg,
+    #09041435 0%,
+    transparent 35%,
+    #08041435 55%,
+    #080414e8 100%
+  );
+}
+
+/* REFLETS AU BAS DU FOND */
+.water-reflections {
+  position: absolute;
+  z-index: -1;
+  left: -10%;
+  right: -10%;
+  bottom: 0;
+  height: 38%;
+  pointer-events: none;
+  opacity: .55;
+  overflow: hidden;
+  background:
+    linear-gradient(180deg, transparent, #09041465 100%),
+    repeating-linear-gradient(
+      177deg,
+      transparent 0px,
+      #ff20d014 2px,
+      transparent 4px,
+      #00dfff10 8px,
+      transparent 12px
+    );
+  background-size: 100% 100%, 100% 37px;
+  animation: waterMove 9s linear infinite;
+}
+
+@keyframes waterMove {
+  0% { background-position: 0 0, 0 0; }
+  50% { background-position: 0 0, 30px 19px; }
+  100% { background-position: 0 0, -20px 37px; }
+}
+
+/* PALMIERS NOIRS */
+.palm {
+  position: absolute;
+  z-index: -1;
+  top: 0;
+  width: clamp(170px, 27vw, 390px);
+  height: 490px;
+  pointer-events: none;
+  opacity: .92;
+  transform-origin: top center;
+  animation: palmWind 6s ease-in-out infinite alternate;
+}
+
+.palm img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: top center;
+  filter: brightness(0) drop-shadow(0 0 12px #ff27d22b);
+}
+
+.palm.left { left: -35px; }
+
+.palm.right {
+  right: -35px;
+  transform: scaleX(-1);
+  animation-name: palmWindRight;
+}
+
+@keyframes palmWind {
+  from { rotate: -1deg; }
+  to { rotate: 1.8deg; }
+}
+
+@keyframes palmWindRight {
+  from { rotate: 1deg; }
+  to { rotate: -1.8deg; }
+}
+
+/* NAVIGATION */
+header {
+  position: relative;
+  z-index: 10;
+  min-height: 75px;
+  padding: 15px 5.5%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 30px;
+  border-bottom: 1px solid #ffffff16;
+  background: #09041428;
+  backdrop-filter: blur(5px);
+}
+
+nav {
+  display: flex;
+  justify-content: center;
+  gap: clamp(18px, 3.4vw, 48px);
+}
+
+nav a {
+  padding: 10px 0;
+  color: #f8edff;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  transition: .2s;
+}
+
+nav a:hover,
+nav a.active {
+  color: var(--pink);
+  text-shadow: 0 0 15px #ff20d0;
+}
+
+nav a.active {
+  border-bottom: 2px solid var(--pink);
+}
+
+.shop-top {
+  padding: 12px 16px;
+  border: 1px solid #ff58dc99;
+  border-radius: 5px;
+  background: #16071fa8;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 1px;
+  transition: .25s;
+}
+
+.shop-top:hover {
+  background: #ff20d02b;
+  box-shadow: 0 0 20px #ff20d044;
+}
+
+/* CONTENU DE L'ACCUEIL */
+.content {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  padding: 0 22px 24px;
+}
+
+.content.hidden {
+  display: none;
+}
+
+.logo-space {
+  width: min(540px, 76vw);
+  height: clamp(340px, 47vh, 475px);
+  flex-shrink: 0;
+}
+
+/* COMPTEURS */
+.countdowns {
+  width: min(850px, 100%);
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 24px;
+  margin-top: -3px;
+}
+
+.card {
+  min-width: 0;
+  position: relative;
+  padding: 23px 22px 18px;
+  overflow: hidden;
+  text-align: center;
+  border: 1px solid #ff28d6a6;
+  border-radius: 11px;
+  background: linear-gradient(135deg, #190522ed, #090419f2);
+  box-shadow: 0 0 25px #ff19d329, inset 0 0 24px #ff18d80a;
+  backdrop-filter: blur(12px);
+  transition: transform .25s, box-shadow .25s;
+}
+
+.card:hover { transform: translateY(-4px); }
+
+.card.blue {
+  border-color: #00dfffba;
+  background: linear-gradient(135deg, #06132cf0, #030819f5);
+  box-shadow: 0 0 25px #00cfff27, inset 0 0 24px #00dfff09;
+}
+
+.card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 12%;
+  width: 76%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--pink), transparent);
+}
+
+.card.blue::before {
+  background: linear-gradient(90deg, transparent, var(--blue), transparent);
+}
+
+.card-title {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  font-family: Orbitron, sans-serif;
+  font-size: clamp(10px, 1.3vw, 15px);
+  font-weight: 700;
+  letter-spacing: 2px;
+  color: var(--pink);
+}
+
+.card.blue .card-title { color: var(--blue); }
+.symbol { font-size: 20px; }
+
+.date {
+  margin-top: 12px;
+  font-size: 10px;
+  font-weight: 600;
+  color: #f6eafa;
+}
+
+.timer {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 8px;
+  margin: 20px 0 22px;
+}
+
+.unit { min-width: 0; }
+
+.number {
+  display: block;
+  color: var(--pink2);
+  font-family: Orbitron, sans-serif;
+  font-size: clamp(20px, 3.2vw, 36px);
+  font-weight: 900;
+  line-height: 1.3;
+  font-variant-numeric: tabular-nums;
+  text-shadow: 0 0 17px #ff20d0a0;
+}
+
+.blue .number {
+  color: var(--blue);
+  text-shadow: 0 0 17px #00dfff9c;
+}
+
+.unit-label {
+  display: block;
+  margin-top: 5px;
+  color: #ffb8ef;
+  font-size: 9px;
+  letter-spacing: .6px;
+}
+
+.blue .unit-label { color: #70edff; }
+
+/* BARRES DE PROGRESSION */
+.progress-container {
+  margin: 0 0 15px;
+  text-align: left;
+}
+
+.progress-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+  color: #d9c9e8;
+  font-size: 9px;
+  font-weight: 700;
+}
+
+.progress-percent {
+  color: var(--pink2);
+  font-family: Orbitron, sans-serif;
+  font-size: 10px;
+  white-space: nowrap;
+}
+
+.card.blue .progress-percent {
+  color: var(--blue);
+}
+
+.progress-track {
+  width: 100%;
+  height: 7px;
+  overflow: hidden;
+  border: 1px solid #ffffff20;
+  border-radius: 20px;
+  background: #ffffff12;
+}
+
+.progress-fill {
+  width: 0%;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, #ff20d0, #ff8ce9);
+  box-shadow: 0 0 12px #ff20d0a0;
+  transition: width .8s ease;
+}
+
+.card.blue .progress-fill {
+  background: linear-gradient(90deg, #008cff, #00dfff);
+  box-shadow: 0 0 12px #00dfff9c;
+}
+
+/* Les deux boutons sous les compteurs ont été retirés */
+
+.message {
+  min-height: 15px;
+  margin-top: 11px;
+  color: #c7b8d7;
+  font-size: 9px;
+  line-height: 1.6;
+}
+
+/* LIENS TRAILERS */
+.trailer-links {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 14px;
+  width: min(1000px, 100%);
+  margin-top: 24px;
+}
+
+.trailer-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  min-width: 210px;
+  padding: 12px 19px;
+  border: 1px solid var(--pink);
+  border-radius: 30px;
+  background: #090414df;
+  color: #ff9fe8;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: .6px;
+  transition: .25s;
+}
+
+.trailer-pill:hover {
+  background: #ff20d024;
+  transform: translateY(-2px);
+}
+
+.trailer-pill.blue {
+  border-color: var(--blue);
+  color: #82edff;
+}
+
+.trailer-pill.purple {
+  border-color: #bd83ff;
+  color: #d6b5ff;
+}
+
+.trailer-pill.launch {
+  border-color: #ff7c9d;
+  color: #ff9db8;
+}
+
+.separator {
+  width: 1px;
+  height: 27px;
+  background: #ffffff50;
+}
+
+/* ÉCRAN MAP SÉPARÉ */
+.map-screen {
+  display: none;
+  position: relative;
+  z-index: 3;
+  width: 100%;
+  min-height: calc(100vh - 75px);
+  padding: 28px clamp(12px, 3vw, 40px) 35px;
+}
+
+.map-screen.visible {
+  display: block;
+}
+
+.map-section {
+  width: min(1200px, 100%);
+  margin: 0 auto;
+  padding: 26px;
+  border: 1px solid #ff28d68a;
+  border-radius: 14px;
+  background: linear-gradient(135deg, #10051eef, #050817f2);
+  box-shadow: 0 0 35px #ff20d01c, 0 0 25px #00dfff0b;
+}
+
+.map-heading {
+  text-align: center;
+  margin-bottom: 22px;
+}
+
+.map-kicker {
+  color: var(--blue);
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 4px;
+  margin-bottom: 10px;
+}
+
+.map-title {
+  font-family: Orbitron, sans-serif;
+  font-size: clamp(22px, 4vw, 38px);
+  color: white;
+  text-shadow: 0 0 18px #ff20d04d;
+}
+
+.map-description {
+  max-width: 650px;
+  margin: 12px auto 0;
+  color: #cfc2df;
+  font-size: 12px;
+  line-height: 1.8;
+}
+
+.map-frame-wrap {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid #00dfff88;
+  border-radius: 10px;
+  background: #080414;
+  box-shadow: 0 0 25px #00dfff16;
+}
+
+.map-frame {
+  display: block;
+  width: 100%;
+  height: min(650px, calc(100vh - 290px));
+  min-height: 400px;
+  border: 0;
+  background: #080414;
+}
+
+.map-actions {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 18px;
+}
+
+.map-action {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  padding: 12px 18px;
+  border: 1px solid var(--pink);
+  border-radius: 30px;
+  color: #ffb8ef;
+  background: #ff20d00d;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: .7px;
+  transition: .25s;
+}
+
+.map-action:hover {
+  background: #ff20d02b;
+  box-shadow: 0 0 18px #ff20d033;
+}
+
+.map-action.secondary {
+  border-color: var(--blue);
+  color: #8cf1ff;
+}
+
+.map-note {
+  margin-top: 15px;
+  text-align: center;
+  color: #a99ab9;
+  font-size: 9px;
+  line-height: 1.7;
+}
+
+/* FOOTER */
+footer {
+  width: min(1400px, 100%);
+  margin-top: 28px;
+  padding: 19px 0 0;
+  border-top: 1px solid #ff9ae35e;
+  text-align: center;
+  font-size: 9px;
+  color: #eee1f5;
+  letter-spacing: 2px;
+}
+
+footer span { color: var(--pink); padding: 0 9px; }
+
+/* GRAND ÉCRAN */
+@media (min-width: 1400px) {
+  .logo-space { height: 48vh; }
+}
+
+/* TABLETTES ET ÉCRANS MOYENS */
+@media (max-width: 800px) {
+  header {
+    padding: 14px 4%;
+    gap: 15px;
+  }
+
+  nav { gap: 17px; }
+
+  nav a {
+    font-size: 9px;
+    letter-spacing: .7px;
+  }
+
+  .shop-top {
+    padding: 10px;
+    font-size: 9px;
+  }
+
+  .logo-space {
+    height: 40vh;
+    min-height: 285px;
+  }
+
+  .countdowns { gap: 12px; }
+
+  .card { padding: 19px 13px 15px; }
+
+  .timer { gap: 4px; }
+
+  .number { font-size: clamp(18px, 3.6vw, 29px); }
+
+  .unit-label { font-size: 8px; }
+
+  .palm { width: 28vw; }
+
+  .map-section { padding: 20px; }
+
+  .map-frame {
+    height: 570px;
+    min-height: 400px;
+  }
+}
+
+/* TÉLÉPHONE EN PORTRAIT */
+@media screen and (max-width: 560px) and (orientation: portrait) {
+  .background {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    transform: none;
+
+    /* JAQUETTE PORTRAIT D'ORIGINE CONSERVÉE */
+    background-image:
+      linear-gradient(
+        180deg,
+        #08041435 0%,
+        #08041418 35%,
+        #080414e8 100%
+      ),
+      url("https://www.igrandtheftauto.com/content/images/gta-6-official-cover-art-portrait.jpg"),
+      linear-gradient(145deg, #36115f, #ec4cae 55%, #080414);
+
+    background-position: center, center center, center;
+    background-size: 100% 100%, cover, 100% 100%;
+    background-repeat: no-repeat;
+    animation: none;
+  }
+
+  header {
+    gap: 10px;
+    padding: 12px 10px;
+    flex-wrap: wrap;
+  }
+
+  nav {
+    gap: clamp(10px, 3vw, 16px);
+  }
+
+  nav a {
+    font-size: clamp(8px, 2.2vw, 10px);
+    letter-spacing: 0;
+  }
+
+  .shop-top {
+    font-size: 8px;
+    padding: 9px 7px;
+  }
+
+  .content {
+    padding: 0 14px 20px;
+  }
+
+  .logo-space {
+    height: 32vh;
+    min-height: 190px;
+    max-height: 290px;
+  }
+
+  .countdowns {
+    grid-template-columns: 1fr;
+    width: min(420px, 100%);
+    gap: 14px;
+  }
+
+  .card {
+    padding: 21px 17px 16px;
+  }
+
+  .card-title { font-size: 12px; }
+  .date { font-size: 9px; }
+  .number { font-size: clamp(24px, 7vw, 30px); }
+
+  .timer {
+    gap: 8px;
+    margin: 18px 0;
+  }
+
+  .unit-label { font-size: 9px; }
+
+  .trailer-links { gap: 10px; }
+
+  .trailer-pill {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .separator { display: none; }
+
+  .palm {
+    width: 35vw;
+    height: 340px;
+    opacity: .75;
+  }
+
+  .palm.left { left: -45px; }
+  .palm.right { right: -45px; }
+
+  .map-screen {
+    padding: 20px 10px 25px;
+  }
+
+  .map-section {
+    padding: 15px 10px;
+    border-radius: 10px;
+  }
+
+  .map-heading { margin-bottom: 16px; }
+
+  .map-kicker {
+    font-size: 9px;
+    letter-spacing: 3px;
+  }
+
+  .map-description { font-size: 11px; }
+
+  .map-frame {
+    height: 68vh;
+    min-height: 430px;
+  }
+
+  .map-action {
+    width: 100%;
+    padding: 12px 10px;
+    font-size: 9px;
+  }
+
+  footer {
+    font-size: 8px;
+    letter-spacing: 1px;
+  }
+}
+
+/* TÉLÉPHONE EN PAYSAGE */
+@media (max-width: 900px)
+and (orientation: landscape)
+and (max-height: 600px) {
+  .page {
+    min-height: 100vh;
+  }
+
+  .background {
+    inset: 0;
+    background-size: 100% 100%, auto 100%, 100% 100%;
+    background-position: center center, center center, center center;
+    background-repeat: no-repeat;
+  }
+
+  header {
+    min-height: 54px;
+    padding: 7px 4%;
+    gap: 18px;
+  }
+
+  nav { gap: clamp(14px, 3vw, 30px); }
+
+  nav a {
+    font-size: 9px;
+    letter-spacing: .5px;
+  }
+
+  .shop-top {
+    padding: 8px 11px;
+    font-size: 9px;
+  }
+
+  .content { padding: 0 16px 16px; }
+
+  .logo-space {
+    width: min(400px, 55vw);
+    height: clamp(95px, 24vh, 155px);
+    min-height: 95px;
+  }
+
+  .countdowns {
+    width: min(780px, 100%);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+  }
+
+  .card { padding: 13px 12px 11px; }
+
+  .card-title {
+    font-size: 10px;
+    letter-spacing: 1px;
+  }
+
+  .symbol { font-size: 15px; }
+
+  .date {
+    margin-top: 7px;
+    font-size: 8px;
+  }
+
+  .timer {
+    gap: 5px;
+    margin: 10px 0 12px;
+  }
+
+  .number { font-size: clamp(17px, 3vw, 25px); }
+
+  .unit-label {
+    font-size: 7px;
+    margin-top: 3px;
+  }
+
+  .message {
+    margin-top: 6px;
+    font-size: 8px;
+  }
+
+  .trailer-links {
+    gap: 8px;
+    margin-top: 15px;
+  }
+
+  .trailer-pill {
+    min-width: 0;
+    padding: 9px 12px;
+    font-size: 8px;
+  }
+
+  .palm {
+    width: 23vw;
+    height: 270px;
+    opacity: .65;
+  }
+
+  .palm.left { left: -30px; }
+  .palm.right { right: -30px; }
+
+  .map-screen { padding: 15px; }
+
+  .map-section { padding: 15px; }
+
+  .map-frame {
+    height: 420px;
+    min-height: 350px;
+  }
+
+  footer {
+    margin-top: 17px;
+    padding-top: 12px;
+    font-size: 8px;
+  }
+}
+
+/* PETITS TÉLÉPHONES EN PAYSAGE */
+@media (max-width: 700px)
+and (orientation: landscape)
+and (max-height: 450px) {
+  .logo-space {
+    height: 75px;
+    min-height: 75px;
+  }
+
+  .countdowns { max-width: 620px; }
+
+  .background {
+    background-size: 100% 100%, auto 100%, 100% 100%;
+    background-position: center center;
+  }
+
+  .palm {
+    width: 19vw;
+    height: 210px;
+  }
+
+  .trailer-links { margin-top: 12px; }
+}
+
+/* ACCESSIBILITÉ */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+</style>
+</head>
+
+<body>
+<div class="page">
+
+  <div class="background"></div>
+  <div class="ambient"></div>
+  <div class="shade"></div>
+  <div class="water-reflections"></div>
+
+  <!-- PALMIER GAUCHE -->
+  <div class="palm left" aria-hidden="true">
+    <img
+      src="https://pngimg.com/uploads/palm_tree/palm_tree_PNG2511.png"
+      alt=""
+    >
+  </div>
+
+  <!-- PALMIER DROIT -->
+  <div class="palm right" aria-hidden="true">
+    <img
+      src="https://pngimg.com/uploads/palm_tree/palm_tree_PNG2511.png"
+      alt=""
+    >
+  </div>
+
+  <header id="accueil">
+    <nav>
+      <a class="active" href="#accueil" data-view="home">ACCUEIL</a>
+      <a href="#trailers" data-view="trailers">TRAILERS</a>
+      <a href="#map" data-view="map">MAP</a>
+      <a
+        href="https://store.rockstargames.com/fr/game/buy-gta-vi"
+        target="_blank"
+        rel="noopener noreferrer"
+      >BOUTIQUE</a>
+    </nav>
+
+    <a
+      class="shop-top"
+      href="https://store.rockstargames.com/fr/game/buy-gta-vi"
+      target="_blank"
+      rel="noopener noreferrer"
+    >ACHETER ↗</a>
+  </header>
+
+  <!-- PAGE D'ACCUEIL : CONSERVÉE -->
+  <main class="content home-view" id="home-view">
+
+    <div class="logo-space" aria-hidden="true"></div>
+
+    <section class="countdowns">
+
+      <article class="card">
+        <h2 class="card-title">
+          <span class="symbol">⇩</span>
+          PRÉCHARGEMENT
+        </h2>
+
+        <p class="date">12 NOVEMBRE 2026 · MINUIT (HEURE LOCALE)</p>
+
+        <div class="timer">
+          <div class="unit">
+            <span class="number" id="dDays">00</span>
+            <span class="unit-label">JOURS</span>
+          </div>
+          <div class="unit">
+            <span class="number" id="dHours">00</span>
+            <span class="unit-label">HEURES</span>
+          </div>
+          <div class="unit">
+            <span class="number" id="dMinutes">00</span>
+            <span class="unit-label">MINUTES</span>
+          </div>
+          <div class="unit">
+            <span class="number" id="dSeconds">00</span>
+            <span class="unit-label">SECONDES</span>
+          </div>
+        </div>
+
+        <!-- BARRE DE PROGRESSION PRÉCHARGEMENT -->
+        <div class="progress-container">
+          <div class="progress-info">
+            <span>PROGRESSION AVANT LE PRÉCHARGEMENT</span>
+            <span class="progress-percent" id="downloadProgressPercent">0%</span>
+          </div>
+          <div
+            class="progress-track"
+            role="progressbar"
+            aria-label="Progression avant le préchargement"
+            aria-valuemin="0"
+            aria-valuemax="100"
+            aria-valuenow="0"
+            id="downloadProgressTrack"
+          >
+            <div class="progress-fill" id="downloadProgressFill"></div>
+          </div>
+        </div>
+
+        <p class="message" id="downloadMessage">
+          Prépare ton espace disque.
+        </p>
+      </article>
+
+      <article class="card blue">
+        <h2 class="card-title">
+          <span class="symbol">★</span>
+          SORTIE OFFICIELLE
+        </h2>
+
+        <p class="date">19 NOVEMBRE 2026</p>
+
+        <div class="timer">
+          <div class="unit">
+            <span class="number" id="rDays">00</span>
+            <span class="unit-label">JOURS</span>
+          </div>
+          <div class="unit">
+            <span class="number" id="rHours">00</span>
+            <span class="unit-label">HEURES</span>
+          </div>
+          <div class="unit">
+            <span class="number" id="rMinutes">00</span>
+            <span class="unit-label">MINUTES</span>
+          </div>
+          <div class="unit">
+            <span class="number" id="rSeconds">00</span>
+            <span class="unit-label">SECONDES</span>
+          </div>
+        </div>
+
+        <!-- BARRE DE PROGRESSION SORTIE OFFICIELLE -->
+        <div class="progress-container">
+          <div class="progress-info">
+            <span>PROGRESSION AVANT LA SORTIE</span>
+            <span class="progress-percent" id="releaseProgressPercent">0%</span>
+          </div>
+          <div
+            class="progress-track"
+            role="progressbar"
+            aria-label="Progression avant la sortie officielle"
+            aria-valuemin="0"
+            aria-valuemax="100"
+            aria-valuenow="0"
+            id="releaseProgressTrack"
+          >
+            <div class="progress-fill" id="releaseProgressFill"></div>
+          </div>
+        </div>
+
+        <p class="message" id="releaseMessage">
+          Jason et Lucia arrivent bientôt.
+        </p>
+      </article>
+
+    </section>
+
+    <div class="trailer-links" id="trailers">
+
+      <a
+        class="trailer-pill"
+        href="https://www.youtube.com/watch?v=QdBZY2fkU-0"
+        target="_blank"
+        rel="noopener noreferrer"
+      >▶ TRAILER 1 OFFICIEL ↗</a>
+
+      <a
+        class="trailer-pill blue"
+        href="https://www.youtube.com/watch?v=VQRLujxTm3c"
+        target="_blank"
+        rel="noopener noreferrer"
+      >▶ TRAILER 2 OFFICIEL ↗</a>
+
+      <a
+        class="trailer-pill launch"
+        href="https://youtu.be/rz1B4B2yBZY"
+        target="_blank"
+        rel="noopener noreferrer"
+      >▶ TRAILER DE LANCEMENT ↗</a>
+
+      <a
+        class="trailer-pill purple"
+        href="https://youtu.be/tJbzMqJGH4k?is=G-_JRUWU776wQyAE"
+        target="_blank"
+        rel="noopener noreferrer"
+      >▶ AN EXTENDED LOOK ↗</a>
+
+    </div>
+
+    <footer>
+      ROCKSTAR GAMES <span>✦</span>
+      GTA VI <span>✦</span>
+      VICE CITY <span>✦</span>
+      2026
+    </footer>
+
+  </main>
+
+  <!-- ÉCRAN MAP : S'AFFICHE SEUL QUAND ON CLIQUE SUR MAP -->
+  <section
+    class="map-screen"
+    id="map-screen"
+    aria-hidden="true"
+  >
+    <div class="map-section" id="map">
+
+      <div class="map-heading">
+        <p class="map-kicker">EXPLORE LEONIDA</p>
+        <h2 class="map-title">GTA VI MAP</h2>
+        <p class="map-description">
+          Explore Vice City et les différentes régions de Leonida.
+          Déplace-toi sur la carte et consulte les lieux répertoriés.
+        </p>
+      </div>
+
+      <div class="map-frame-wrap">
+        <iframe
+          class="map-frame"
+          src="https://mapheist.com/en/embed/leonida/"
+          title="Carte interactive communautaire de GTA VI — Leonida"
+          loading="lazy"
+          allowfullscreen
+          referrerpolicy="strict-origin-when-cross-origin"
+        ></iframe>
+      </div>
+
+      <div class="map-actions">
+        <a
+          class="map-action"
+          href="https://mapheist.com/en/map/"
+          target="_blank"
+          rel="noopener noreferrer"
+        >OUVRIR LA CARTE EN GRAND ↗</a>
+
+        <a
+          class="map-action secondary"
+          href="#accueil"
+          data-view="home"
+        >← RETOUR À L’ACCUEIL</a>
+      </div>
+
+      <p class="map-note">
+        Carte communautaire non officielle, basée sur les bandes-annonces
+        et les images disponibles. Les emplacements peuvent être approximatifs.
+        Carte fournie par Mapheist.
+      </p>
+
+    </div>
+  </section>
+
+</div>
+
+<script>
+"use strict";
+
+const DOWNLOAD_DATE = new Date(2026, 10, 12, 0, 0, 0);
+const RELEASE_DATE = new Date(2026, 10, 19, 0, 0, 0);
+
+/* DÉPART DES BARRES DE PROGRESSION : 4 FÉVRIER 2022 */
+const PROGRESS_START = new Date(2022, 1, 4, 0, 0, 0);
+
+function updateCountdown(prefix, target, messageId, waiting, finished) {
+  const difference = target.getTime() - Date.now();
+  const message = document.getElementById(messageId);
+
+  if (difference <= 0) {
+    ["Days", "Hours", "Minutes", "Seconds"].forEach(unit => {
+      document.getElementById(prefix + unit).textContent = "00";
+    });
+    message.textContent = finished;
+    return;
+  }
+
+  const total = Math.floor(difference / 1000);
+
+  const values = {
+    Days: Math.floor(total / 86400),
+    Hours: Math.floor((total % 86400) / 3600),
+    Minutes: Math.floor((total % 3600) / 60),
+    Seconds: total % 60
+  };
+
+  Object.entries(values).forEach(([unit, value]) => {
+    document.getElementById(prefix + unit).textContent =
+      String(value).padStart(2, "0");
+  });
+
+  message.textContent = waiting;
+}
+
+/* MISE À JOUR DES BARRES DE PROGRESSION */
+function updateProgress(fillId, percentId, trackId, target) {
+  const now = Date.now();
+  const start = PROGRESS_START.getTime();
+  const end = target.getTime();
+
+  const totalDuration = end - start;
+  const elapsed = now - start;
+
+  let percentage = (elapsed / totalDuration) * 100;
+  percentage = Math.max(0, Math.min(100, percentage));
+
+  const roundedPercentage = percentage.toFixed(2);
+  const fill = document.getElementById(fillId);
+  const percent = document.getElementById(percentId);
+  const track = document.getElementById(trackId);
+
+  fill.style.width = roundedPercentage + "%";
+  percent.textContent = percentage.toFixed(2) + "%";
+  track.setAttribute("aria-valuenow", percentage.toFixed(2));
+}
+
+function updateAll() {
+  updateCountdown(
+    "d",
+    DOWNLOAD_DATE,
+    "downloadMessage",
+    "Prépare ton espace disque. Vice City approche.",
+    "La date annoncée est arrivée. Vérifie ta plateforme."
+  );
+
+  updateCountdown(
+    "r",
+    RELEASE_DATE,
+    "releaseMessage",
+    "Jason et Lucia arrivent bientôt à Vice City.",
+    "La date de sortie annoncée est arrivée."
+  );
+
+  updateProgress(
+    "downloadProgressFill",
+    "downloadProgressPercent",
+    "downloadProgressTrack",
+    DOWNLOAD_DATE
+  );
+
+  updateProgress(
+    "releaseProgressFill",
+    "releaseProgressPercent",
+    "releaseProgressTrack",
+    RELEASE_DATE
+  );
+}
+
+updateAll();
+setInterval(updateAll, 1000);
+
+/* NAVIGATION ENTRE ACCUEIL, TRAILERS ET MAP */
+const homeView = document.getElementById("home-view");
+const mapScreen = document.getElementById("map-screen");
+const navigationLinks = document.querySelectorAll(
+  'header nav a[data-view]'
+);
+
+function setActiveTab(view) {
+  navigationLinks.forEach(link => {
+    link.classList.toggle("active", link.dataset.view === view);
+  });
+}
+
+function showView(view) {
+  setActiveTab(view);
+
+  if (view === "map") {
+    homeView.classList.add("hidden");
+    mapScreen.classList.add("visible");
+    mapScreen.setAttribute("aria-hidden", "false");
+
+    window.scrollTo({
+      top: 0,
+      behavior: "auto"
+    });
+
+    return;
+  }
+
+  mapScreen.classList.remove("visible");
+  mapScreen.setAttribute("aria-hidden", "true");
+  homeView.classList.remove("hidden");
+
+  if (view === "trailers") {
+    requestAnimationFrame(() => {
+      document.getElementById("trailers").scrollIntoView({
+        behavior: "smooth",
+        block: "start"
+      });
+    });
+  } else {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth"
+    });
+  }
+}
+
+navigationLinks.forEach(link => {
+  link.addEventListener("click", event => {
+    event.preventDefault();
+    showView(link.dataset.view);
+  });
+});
+
+/* LE BOUTON DE RETOUR DEPUIS LA CARTE */
+document.querySelectorAll('[data-view="home"]').forEach(link => {
+  link.addEventListener("click", event => {
+    event.preventDefault();
+    showView("home");
+  });
+});
+</script>
+
+</body>
+</html>
